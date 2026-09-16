@@ -40,39 +40,52 @@ def is_valid_guess(guess):
 
 def play_game():
     """Runs the Snowman Meltdown game and manages the game state."""
-    secret_word = get_random_word()
-    guessed_letters = []
-    mistakes = 0
+    while True:
+        secret_word = get_random_word()
+        guessed_letters = []
+        mistakes = 0
+        won = False
 
-    print(Fore.BLUE + "=" * DISPLAY_WIDTH + Style.RESET_ALL)
-    print("Welcome to Snowman Meltdown!".center(DISPLAY_WIDTH))
-    print(Fore.BLUE + "=" * DISPLAY_WIDTH + Style.RESET_ALL)
-
-    display_game_state(mistakes, secret_word, guessed_letters)
-
-    while mistakes < len(STAGES) - 1:
-
-        guess = input("Guess a letter: ").lower()
-
-        if is_valid_guess(guess):
-            if guess in secret_word and guess not in guessed_letters:
-                guessed_letters.append(guess)
-            if guess not in secret_word:
-                mistakes += 1
-            if all(letter in guessed_letters for letter in secret_word):
-                print("Congratulations, you saved the snowman!")
-                return
-        else:
-            print("False input")
-
-        print()
-        print(Fore.GREEN + "-" * DISPLAY_WIDTH + Style.RESET_ALL)
-        print(Fore.GREEN + "GAME STATUS".center(DISPLAY_WIDTH) + Style.RESET_ALL)
-        print(Fore.GREEN + "-" * DISPLAY_WIDTH + Style.RESET_ALL)
-        print(Fore.RED + f"Mistakes: {mistakes} / {len(STAGES) - 1}".center(DISPLAY_WIDTH) + Style.RESET_ALL)
-        print(Fore.GREEN + f"Guessed: {', '.join(guessed_letters)}".center(DISPLAY_WIDTH) + Style.RESET_ALL)
-        print(Fore.GREEN + "-" * DISPLAY_WIDTH + Style.RESET_ALL)
+        print(Fore.BLUE + "=" * DISPLAY_WIDTH + Style.RESET_ALL)
+        print("Welcome to Snowman Meltdown!".center(DISPLAY_WIDTH))
+        print(Fore.BLUE + "=" * DISPLAY_WIDTH + Style.RESET_ALL)
 
         display_game_state(mistakes, secret_word, guessed_letters)
 
-    print(f"Game Over! The word was: {secret_word}")
+        while mistakes < len(STAGES) - 1:
+
+            guess = input("Guess a letter: ").lower()
+
+            if is_valid_guess(guess):
+                if guess in secret_word and guess not in guessed_letters:
+                    guessed_letters.append(guess)
+                if guess not in secret_word:
+                    mistakes += 1
+                if all(letter in guessed_letters for letter in secret_word):
+                    print("Congratulations, you saved the snowman!")
+                    won = True
+                    break
+            else:
+                print("False input")
+
+            print()
+            print(Fore.GREEN + "-" * DISPLAY_WIDTH + Style.RESET_ALL)
+            print(Fore.GREEN + "GAME STATUS".center(DISPLAY_WIDTH) + Style.RESET_ALL)
+            print(Fore.GREEN + "-" * DISPLAY_WIDTH + Style.RESET_ALL)
+            print(Fore.RED + f"Mistakes: {mistakes} / {len(STAGES) - 1}".center(DISPLAY_WIDTH) + Style.RESET_ALL)
+            print(Fore.GREEN + f"Guessed: {', '.join(guessed_letters)}".center(DISPLAY_WIDTH) + Style.RESET_ALL)
+            print(Fore.GREEN + "-" * DISPLAY_WIDTH + Style.RESET_ALL)
+
+            display_game_state(mistakes, secret_word, guessed_letters)
+
+            if mistakes == len(STAGES) - 1:
+                break
+
+        if not won:
+            print(f"Game Over! The word was: {secret_word}")
+
+        start_new_game = input("\nPlay again? (y/n): ").lower()
+        if start_new_game == "y":
+            continue
+        else:
+            break
