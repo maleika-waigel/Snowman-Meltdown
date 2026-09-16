@@ -29,7 +29,7 @@ def display_game_state(mistakes, secret_word, guessed_letters):
             display_word += "_ "
     print("Word: ", display_word)
     print()
-    print("=" * DISPLAY_WIDTH)
+    print(Fore.BLUE + "=" * DISPLAY_WIDTH + Style.RESET_ALL)
     print()
 
 
@@ -44,9 +44,9 @@ def play_game():
     guessed_letters = []
     mistakes = 0
 
-    print("=" * DISPLAY_WIDTH)
+    print(Fore.BLUE + "=" * DISPLAY_WIDTH + Style.RESET_ALL)
     print("Welcome to Snowman Meltdown!".center(DISPLAY_WIDTH))
-    print("=" * DISPLAY_WIDTH)
+    print(Fore.BLUE + "=" * DISPLAY_WIDTH + Style.RESET_ALL)
 
     display_game_state(mistakes, secret_word, guessed_letters)
 
@@ -66,16 +66,13 @@ def play_game():
             print("False input")
 
         print()
-        print("-" * DISPLAY_WIDTH)
-        print("GAME STATUS".center(DISPLAY_WIDTH))
-        print("-" * DISPLAY_WIDTH)
-        # print(Fore.RED + f"Mistakes: {mistakes} / {len(STAGES) - 1}".center(DISPLAY_WIDTH) + Style.RESET_ALL)
-        print(Fore.RED + f"Mistakes: {mistakes} / {len(STAGES) - 1}".center(DISPLAY_WIDTH))
-        print(f"Guessed: {', '.join(guessed_letters)}".center(DISPLAY_WIDTH))
-        print("-" * DISPLAY_WIDTH)
+        print(Fore.GREEN + "-" * DISPLAY_WIDTH + Style.RESET_ALL)
+        print(Fore.GREEN + "GAME STATUS".center(DISPLAY_WIDTH) + Style.RESET_ALL)
+        print(Fore.GREEN + "-" * DISPLAY_WIDTH + Style.RESET_ALL)
+        print(Fore.RED + f"Mistakes: {mistakes} / {len(STAGES) - 1}".center(DISPLAY_WIDTH) + Style.RESET_ALL)
+        print(Fore.GREEN + f"Guessed: {', '.join(guessed_letters)}".center(DISPLAY_WIDTH) + Style.RESET_ALL)
+        print(Fore.GREEN + "-" * DISPLAY_WIDTH + Style.RESET_ALL)
 
-
-        # print("You guessed:", guess)
         display_game_state(mistakes, secret_word, guessed_letters)
 
     print(f"Game Over! The word was: {secret_word}")
