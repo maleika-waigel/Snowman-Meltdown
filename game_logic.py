@@ -28,6 +28,11 @@ def display_game_state(mistakes, secret_word, guessed_letters):
     print("\n")
 
 
+def is_valid_guess(guess):
+    """Checks whether the guess is a single alphabetic character."""
+    return guess.isalpha() and len(guess) == 1
+
+
 def play_game():
     """Runs the Snowman Meltdown game and manages the game state."""
     secret_word = get_random_word()
@@ -37,15 +42,18 @@ def play_game():
     print("Welcome to Snowman Meltdown!")
     display_game_state(mistakes, secret_word, guessed_letters)
 
-    while mistakes < len(STAGES) - 1 :
+    while mistakes < len(STAGES) - 1:
         guess = input("Guess a letter: ").lower()
-        if guess in secret_word and guess not in guessed_letters:
-            guessed_letters.append(guess)
-        if guess not in secret_word:
-            mistakes += 1
-        if all(letter in guessed_letters for letter in secret_word):
-            print("Congratulations, you saved the snowman!")
-            return
+        if is_valid_guess(guess):
+            if guess in secret_word and guess not in guessed_letters:
+                guessed_letters.append(guess)
+            if guess not in secret_word:
+                mistakes += 1
+            if all(letter in guessed_letters for letter in secret_word):
+                print("Congratulations, you saved the snowman!")
+                return
+        else:
+            print("False input")
 
         # print("You guessed:", guess)
         display_game_state(mistakes, secret_word, guessed_letters)
