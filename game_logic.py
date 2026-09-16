@@ -1,10 +1,13 @@
 import random
 from ascii_art import STAGES
+from colorama import Fore, Style, init
+
+init()
 
 
 # List of secret words
 WORDS = ["python", "git", "github", "snowman", "meltdown"]
-
+DISPLAY_WIDTH = 40
 
 def get_random_word():
     """Selects a random word from the list."""
@@ -25,7 +28,9 @@ def display_game_state(mistakes, secret_word, guessed_letters):
         else:
             display_word += "_ "
     print("Word: ", display_word)
-    print("\n")
+    print()
+    print("=" * DISPLAY_WIDTH)
+    print()
 
 
 def is_valid_guess(guess):
@@ -39,11 +44,16 @@ def play_game():
     guessed_letters = []
     mistakes = 0
 
-    print("Welcome to Snowman Meltdown!")
+    print("=" * DISPLAY_WIDTH)
+    print("Welcome to Snowman Meltdown!".center(DISPLAY_WIDTH))
+    print("=" * DISPLAY_WIDTH)
+
     display_game_state(mistakes, secret_word, guessed_letters)
 
     while mistakes < len(STAGES) - 1:
+
         guess = input("Guess a letter: ").lower()
+
         if is_valid_guess(guess):
             if guess in secret_word and guess not in guessed_letters:
                 guessed_letters.append(guess)
@@ -54,6 +64,16 @@ def play_game():
                 return
         else:
             print("False input")
+
+        print()
+        print("-" * DISPLAY_WIDTH)
+        print("GAME STATUS".center(DISPLAY_WIDTH))
+        print("-" * DISPLAY_WIDTH)
+        # print(Fore.RED + f"Mistakes: {mistakes} / {len(STAGES) - 1}".center(DISPLAY_WIDTH) + Style.RESET_ALL)
+        print(Fore.RED + f"Mistakes: {mistakes} / {len(STAGES) - 1}".center(DISPLAY_WIDTH))
+        print(f"Guessed: {', '.join(guessed_letters)}".center(DISPLAY_WIDTH))
+        print("-" * DISPLAY_WIDTH)
+
 
         # print("You guessed:", guess)
         display_game_state(mistakes, secret_word, guessed_letters)
