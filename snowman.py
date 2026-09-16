@@ -66,9 +66,20 @@ def play_game():
     # For now, display the initial game state.
     display_game_state(mistakes, secret_word, guessed_letters)
 
-    # Prompt user for one guess (logic to be enhanced later)
-    guess = input("Guess a letter: ").lower()
-    print("You guessed:", guess)
+    while mistakes < len(STAGES) -1 :
+        guess = input("Guess a letter: ").lower()
+        if guess in secret_word and guess not in guessed_letters:
+            guessed_letters.append(guess)
+        if guess not in secret_word:
+            mistakes += 1
+        if all(letter in guessed_letters for letter in secret_word):
+            print("Congratulations, you saved the snowman!")
+            return
+
+        # print("You guessed:", guess)
+        display_game_state(mistakes, secret_word, guessed_letters)
+
+    print(f"Game Over! The word was: {secret_word}")
 
 
 if __name__ == "__main__":
